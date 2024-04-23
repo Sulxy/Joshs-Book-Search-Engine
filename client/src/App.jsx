@@ -20,7 +20,6 @@ import SignupForm from './components/SignupForm';
 function App() {
   return (
     // <ApolloProvider client={client}>
-      <Router>
         <div>
           <Navbar />
           <Routes>
@@ -30,7 +29,6 @@ function App() {
             <Route exact path="/signup" element={<SignupForm />} />
           </Routes>
         </div>
-      </Router>
     // </ApolloProvider>
   );
 }
