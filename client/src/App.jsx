@@ -1,7 +1,7 @@
 // Import the necessary modules
 // import React from 'react';
 import './App.css';
-// import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import SearchBooks from './pages/SearchBooks';
@@ -11,15 +11,15 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 
 // Create a new Apollo client and pass it to the ApolloProvider
-// const client = new ApolloClient({
-//   uri: '/graphql',
-//   cache: new InMemoryCache(),
-// });
+const client = new ApolloClient({
+  uri: '/graphql',
+  cache: new InMemoryCache(),
+});
 
 // Create the App component that will render the pages
 function App() {
   return (
-    // <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
         <div>
           <Navbar />
           <Routes>
@@ -29,7 +29,7 @@ function App() {
             <Route exact path="/signup" element={<SignupForm />} />
           </Routes>
         </div>
-    // </ApolloProvider>
+    </ApolloProvider>
   );
 }
 

@@ -68,7 +68,7 @@ const SearchBooks = () => {
                 )}
                 <Card.Body>
                   <Card.Title>{book.volumeInfo.title}</Card.Title>
-                  <p className='small'>Authors: {book.volumeInfo.authors.join(', ')}</p>
+                  <p className='small'>Authors: {book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown'}</p>                  
                   <Card.Text>{book.volumeInfo.description}</Card.Text>
                   <Button
                     className='btn-block btn-info'
