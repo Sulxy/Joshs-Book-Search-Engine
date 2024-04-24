@@ -22,6 +22,12 @@ Clone the repository, type "npm i" into the root directory, then "npm run build"
 Create an account, search your favorite books, save them, anhave access to information about them. 
 
 ## Screenshots
+![image](https://github.com/Sulxy/Joshs-Book-Search-Engine/assets/149080702/d59eb8c3-fd9c-4000-8871-72351b491714)
+![image](https://github.com/Sulxy/Joshs-Book-Search-Engine/assets/149080702/1bee49e6-398c-4d27-b601-248cc0170aa4)
+![image](https://github.com/Sulxy/Joshs-Book-Search-Engine/assets/149080702/835ab53a-5a5b-4b78-b1c6-300f39ecd358)
+![image](https://github.com/Sulxy/Joshs-Book-Search-Engine/assets/149080702/3785f13e-3cd7-49db-909e-431c45475a55)
+![image](https://github.com/Sulxy/Joshs-Book-Search-Engine/assets/149080702/caa52703-610c-4e27-bad6-5d64a67a1f35)
+![image](https://github.com/Sulxy/Joshs-Book-Search-Engine/assets/149080702/758b88e7-2389-483b-a7d0-c1ee5ab14bc7)
 
 ## Deployed Application
 
