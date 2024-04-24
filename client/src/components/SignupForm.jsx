@@ -1,15 +1,31 @@
-import { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Form, Button, Alert } from "react-bootstrap";
 import { useMutation } from '@apollo/client';
-import { ADD_USER } from '../graphql/mutations';
-import Auth from '../utils/auth';
+import { ADD_USER } from "../graphql/mutations";
+import Auth from "../utils/auth";
 
 const SignupForm = () => {
-  const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  const [validated, setValidated] = useState(false);
+  // set initial form state
+  const [userFormData, setUserFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  // set state for form validation
+  const [validated] = useState(false);
+  // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
-  const [addUser] = useMutation(ADD_USER);
+  // declared the addUser with the useMutation
+  const [addUser, { error }] = useMutation(ADD_USER);
+
+  useEffect(() => {
+    if (error) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [error]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -18,28 +34,29 @@ const SignupForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const form = event.currentTarget;
 
+    // check if form has everything (as per react-bootstrap docs)
+    const form = event.currentTarget;
     if (form.checkValidity() === false) {
+      event.preventDefault();
       event.stopPropagation();
     }
 
-    setValidated(true);
-
+    // use addUser function
     try {
       const { data } = await addUser({
         variables: { ...userFormData },
       });
 
       Auth.login(data.addUser.token);
-    } catch (error) {
-      setShowAlert(true);
+    } catch (e) {
+      console.error(e);
     }
 
     setUserFormData({
-      username: '',
-      email: '',
-      password: '',
+      username: "",
+      email: "",
+      password: "",
     });
   };
 

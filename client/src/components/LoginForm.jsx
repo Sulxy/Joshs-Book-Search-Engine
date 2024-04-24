@@ -1,15 +1,22 @@
-import { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Form, Button, Alert } from "react-bootstrap";
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../graphql/mutations';
-import Auth from '../utils/auth';
+import { LOGIN_USER } from "../graphql/mutations";
+import Auth from "../utils/auth";
 
 const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated, setValidated] = useState(false);
+  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
+  const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const [loginUser] = useMutation(LOGIN_USER);
+  // loginUser with useMutation
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
+
+  useEffect(() => {
+    if (error) setShowAlert(true);
+    else setShowAlert(false);
+  }, [error])
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -18,27 +25,29 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const form = event.currentTarget;
 
+    // check if form has everything (as per react-bootstrap docs)
+    const form = event.currentTarget;
     if (form.checkValidity() === false) {
+      event.preventDefault();
       event.stopPropagation();
     }
 
-    setValidated(true);
-
+    // use loginUser function
     try {
       const { data } = await loginUser({
         variables: { ...userFormData },
       });
 
       Auth.login(data.login.token);
-    } catch (error) {
-      setShowAlert(true);
+    } catch (e) {
+      console.error(e);
     }
 
     setUserFormData({
-      email: '',
-      password: '',
+      username: "",
+      email: "",
+      password: "",
     });
   };
 
@@ -57,6 +66,7 @@ const LoginForm = () => {
             onChange={handleInputChange}
             value={userFormData.email}
             required
+            autoComplete='email' // Autocomplete attribute
           />
           <Form.Control.Feedback type='invalid'>Please provide a valid email!</Form.Control.Feedback>
         </Form.Group>
@@ -70,6 +80,7 @@ const LoginForm = () => {
             onChange={handleInputChange}
             value={userFormData.password}
             required
+            autoComplete='current-password' // Autocomplete attribute
           />
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
