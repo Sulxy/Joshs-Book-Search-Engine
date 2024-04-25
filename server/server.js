@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { authMiddleware } = require('./utils/auth');
 // Import the ApolloServer class and expressMiddleware helper function
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
@@ -7,6 +8,7 @@ const { expressMiddleware } = require('@apollo/server/express4');
 // Import the two parts of a GraphQL schema
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
+const { authMiddleware } = require('./utils/auth');
 
 const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
@@ -23,7 +25,9 @@ const startApolloServer = async () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
-  app.use('/graphql', expressMiddleware(server));
+  app.use('/graphql', expressMiddleware(server, {
+    context: authMiddleware
+  }));
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
